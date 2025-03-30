@@ -1,0 +1,73 @@
+---
+title: "Simulation Data Gerber"
+author: "Wendy Lee"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+#Gerber Dataset Simulation
+```{r, simulation,echo=FALSE, message=FALSE, warning=FALSE}
+
+#install and load packages 
+install.packages("skimr",repos = "http://cran.us.r-project.org")
+install.packages("janitor",repos = "http://cran.us.r-project.org")
+library(skimr)
+library(janitor)
+
+#set seed and sample size
+n<-1000
+set.seed(123)
+
+#simulate hgb continuous variable
+hgb<-rnorm(n, mean=11, sd=1)
+hist(hgb)
+
+#simulate sex variable (binary)
+x<-rbinom(n, size=1, prob=0.5)
+sex<- ifelse(x==1, "Male", "Female")
+table(sex)
+
+#simulate region variable (categorical)
+region<- sample(c("South","Midwest","Northeast","West"),size=n, replace= TRUE,
+                prob=c(0.48,0.25,0.15,0.12))
+tabyl(region)
+
+#simulate race variable (categorical)
+race<- sample(c("Asian","Black","White","Pacific Islander&American Indian", "Other"),size=n,                 
+              replace= TRUE,prob=c(0.05,0.22,0.60,0.02,0.11))
+tabyl(race)
+
+#simulate age in months variable using rounding 
+age_months<-round(rnorm(n, mean=20, sd=5))
+hist(age_months)
+
+#simulate LOS variable (discrete)
+los<-rbinom(n, size=12, prob=0.5)
+hist(los)
+
+#simulate # of hospitalizations (poisson)
+hosp<- rpois(n=n, lambda=3)
+hosp[hosp == 0] <- sample(1:5, sum(hosp == 0), replace = TRUE)
+hist(hosp)
+
+#introducing missingness in proportion
+tabyl(runif(100, min=0, max=1) <=0.1)
+region_missing<-region
+region_missing<-ifelse(runif(100, min=0, max=1) <=0.1 , NA, region)
+summary(region_missing)
+
+#multivariate 
+
+#compile simulated data
+data_sim<- data.frame(
+  id=1:n,
+  age=age_months,
+  race=race,
+  region=region_missing,
+  sex=sex,
+  hgb=hgb,
+  los=los,
+  hosp=hosp)
+write.csv(data_sim,"/Users/wendylee/Desktop/Data550/datasim.csv")
+
+```
