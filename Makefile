@@ -14,4 +14,7 @@ output/scatter.png: code/02_make_scatter.R output/dataclean.rds
 output/both_models.rds output/both_tables.rds&: \
 	code/03_models.R output/dataclean.rds
 	Rscript code/03_models.R
-	
+
+.PHONY: install
+install: 
+Rscript -e "renv::restore(prompt=FALSE)"
