@@ -24,3 +24,6 @@ are affected by different exposure variables
 
 `code04/render.R`
 - This code uses the "Untitled.Rmd" file to render the report into an html file named "final_project.html"
+
+#To synchronize package repository 
+Type 'make install' in the terminal 
