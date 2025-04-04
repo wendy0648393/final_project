@@ -17,4 +17,4 @@ output/both_models.rds output/both_tables.rds&: \
 
 .PHONY: install
 install: 
-Rscript -e "renv::restore(prompt=FALSE)"
+	Rscript -e "renv::restore(prompt=FALSE)"
