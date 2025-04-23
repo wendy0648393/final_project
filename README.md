@@ -25,5 +25,12 @@ are affected by different exposure variables
 `code04/render.R`
 - This code uses the "Untitled.Rmd" file to render the report into an html file named "final_project.html"
 
-#To synchronize package repository 
+#Build Docker Image
+docker build -t wendy0648393/image
+
+#Build Report
+docker run -it image bash
+
+Once you enter the container, type "make"
+
 Type 'make install' in the terminal 
